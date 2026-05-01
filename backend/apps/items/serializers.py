@@ -23,6 +23,7 @@ class ItemSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False
     )
+    removed_image_ids = serializers.CharField(write_only=True, required=False)
     
     owner_name = serializers.SerializerMethodField()
     owner_picture = serializers.SerializerMethodField()
@@ -53,6 +54,26 @@ class ItemSerializer(serializers.ModelSerializer):
         for image in uploaded_images:
             ItemImage.objects.create(item=item, image=image)
             
+        return item
+
+    def update(self, instance, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images', [])
+        removed_image_ids = validated_data.pop('removed_image_ids', None)
+
+        item = super().update(instance, validated_data)
+
+        for image in uploaded_images:
+            ItemImage.objects.create(item=item, image=image)
+
+        if removed_image_ids:
+            if isinstance(removed_image_ids, str):
+                cleaned_ids = [value.strip() for value in removed_image_ids.split(',') if value.strip()]
+            else:
+                cleaned_ids = list(removed_image_ids)
+            image_ids = [int(value) for value in cleaned_ids if str(value).isdigit()]
+            if image_ids:
+                ItemImage.objects.filter(item=item, id__in=image_ids).delete()
+
         return item
     
     def get_owner_name(self, obj):

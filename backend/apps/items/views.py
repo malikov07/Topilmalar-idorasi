@@ -96,6 +96,19 @@ class ItemViewSet(viewsets.ModelViewSet):
         # Process the image properly only if we need legacy tasks
         # process_item_images.delay(item.id)
 
+    def perform_update(self, serializer):
+        item = serializer.save()
+
+        suggested_categories = self.request.data.get('suggested_categories')
+        if suggested_categories is not None:
+            resolved_categories, main_category = resolve_categories_from_suggestions(suggested_categories)
+            if resolved_categories:
+                item.categories.set(resolved_categories)
+            if main_category:
+                item.category = main_category
+            item.is_processed = True
+            item.save()
+
     @action(detail=False, methods=['post'], url_path='analyze-image')
     def analyze_image(self, request):
         image_file = request.FILES.get('image')

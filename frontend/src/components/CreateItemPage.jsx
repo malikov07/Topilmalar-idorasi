@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { getCategoryDisplayName } from '../utils/category';
@@ -45,6 +45,8 @@ const CreateItemPage = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [imageFiles, setImageFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
+    const [removedImageIds, setRemovedImageIds] = useState([]);
     const [showCamera, setShowCamera] = useState(false);
     const [aiAnalyzing, setAiAnalyzing] = useState(false);
     const [suggestedCategories, setSuggestedCategories] = useState([]);
@@ -82,6 +84,8 @@ const CreateItemPage = () => {
     };
     const [description, setDescription] = useState('');
 
+    const { id: itemId } = useParams();
+    const isEditMode = Boolean(itemId);
     const [loading, setLoading] = useState(false);
     const [locating, setLocating] = useState(false);
     const [error, setError] = useState(null);
@@ -148,6 +152,38 @@ const CreateItemPage = () => {
     }, [user, navigate]);
 
     useEffect(() => {
+        if (!itemId) return;
+
+        const fetchItem = async () => {
+            setLoading(true);
+            setError(null);
+
+            try {
+                const response = await api.get(`/api/items/${itemId}/`);
+                const item = response.data;
+
+                setStatus(item.status || 'LOST');
+                setTitle(item.title || '');
+                setDescription(item.description || '');
+                setDateLost(item.date_lost_or_found || '');
+                setLocationLost(item.location_address || '');
+                setContactInfo(item.contact_info || '');
+                setCoordinates({ lat: item.latitude || null, lng: item.longitude || null });
+                setSuggestedCategories(item.categories?.map((cat) => getCategoryDisplayName(cat, language)) || []);
+                setSelectedCategories(item.categories?.map((cat) => getCategoryDisplayName(cat, language)) || []);
+                setExistingImages(item.images?.map((img) => ({ id: img.id, image: img.image })) || []);
+            } catch (err) {
+                console.error(err);
+                setError('Itemni yuklashda xatolik yuz berdi.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchItem();
+    }, [itemId, language]);
+
+    useEffect(() => {
         return () => {
             imagePreviews.forEach((url) => URL.revokeObjectURL(url));
         };
@@ -160,7 +196,8 @@ const CreateItemPage = () => {
             useWebWorker: true,
         };
 
-        const selected = Array.from(files || []).slice(0, MAX_IMAGES);
+        const maxSlots = Math.max(0, MAX_IMAGES - existingImages.length - imageFiles.length);
+        const selected = Array.from(files || []).slice(0, maxSlots);
         if (!selected.length) return [];
 
         const compressed = await Promise.all(
@@ -219,7 +256,7 @@ const CreateItemPage = () => {
             const { ok, suggestedCategories: newSuggested } = await analyzeNewImageFiles(files);
             if (!ok) return;
 
-            const mergedFiles = [...imageFiles, ...files].slice(0, MAX_IMAGES);
+            const mergedFiles = [...imageFiles, ...files];
             imagePreviews.forEach((url) => URL.revokeObjectURL(url));
             const previews = mergedFiles.map((file) => URL.createObjectURL(file));
 
@@ -244,7 +281,7 @@ const CreateItemPage = () => {
         const { ok, suggestedCategories: newSuggested } = await analyzeNewImageFiles(nextFiles);
         if (!ok) return;
 
-        const mergedFiles = [...imageFiles, ...nextFiles].slice(0, MAX_IMAGES);
+        const mergedFiles = [...imageFiles, ...nextFiles];
         imagePreviews.forEach((url) => URL.revokeObjectURL(url));
         const previews = mergedFiles.map((item) => URL.createObjectURL(item));
 
@@ -300,12 +337,28 @@ const CreateItemPage = () => {
         }
     }, [showCamera]);
 
+    const getPreviewItems = () => [
+        ...existingImages.map((img) => ({ type: 'existing', id: img.id, url: img.image })),
+        ...imagePreviews.map((url) => ({ type: 'new', id: null, url })),
+    ];
+
     const removeImage = (index) => {
-        const nextFiles = imageFiles.filter((_, i) => i !== index);
-        const nextPreviews = imagePreviews.filter((_, i) => i !== index);
+        const previewItems = getPreviewItems();
+        const item = previewItems[index];
+        if (!item) return;
+
+        if (item.type === 'existing') {
+            setExistingImages((prev) => prev.filter((img) => img.id !== item.id));
+            setRemovedImageIds((prev) => [...prev, item.id]);
+            return;
+        }
+
+        const newIndex = index - existingImages.length;
+        const nextFiles = imageFiles.filter((_, i) => i !== newIndex);
+        const nextPreviews = imagePreviews.filter((_, i) => i !== newIndex);
         setImageFiles(nextFiles);
         setImagePreviews(nextPreviews);
-        if (!nextFiles.length) {
+        if (!nextFiles.length && existingImages.length === 0) {
             setSuggestedCategories([]);
             setIsSafe(true);
             setRejectReason(null);
@@ -336,15 +389,23 @@ const CreateItemPage = () => {
             formData.append('uploaded_images', file);
         });
 
+        if (removedImageIds.length) {
+            formData.append('removed_image_ids', removedImageIds.join(','));
+        }
+
         if (coordinates.lat && coordinates.lng) {
             formData.append('latitude', coordinates.lat);
             formData.append('longitude', coordinates.lng);
         }
 
         try {
-            const response = await api.post('/api/items/', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            const response = await api[isEditMode ? 'patch' : 'post'](
+                isEditMode ? `/api/items/${itemId}/` : '/api/items/',
+                formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                }
+            );
             setCreatedItem(response.data);
             setSuccess(true);
         } catch (err) {
@@ -362,9 +423,10 @@ const CreateItemPage = () => {
 
     if (!user) return null;
 
+    const previewItems = getPreviewItems();
     const postedImages =
         createdItem?.images?.map((img) => img.image).filter(Boolean) ||
-        (imagePreviews.length ? imagePreviews : []);
+        (previewItems.length ? previewItems.map((item) => item.url) : []);
 
     return (
         <div className="min-h-screen bg-slate-50 px-3 py-3 sm:px-6 sm:py-6 lg:px-8">
@@ -527,12 +589,12 @@ const CreateItemPage = () => {
                         <div className="grid gap-4 p-4 sm:p-6 lg:grid-cols-[1.1fr_0.9fr]">
                             <div className="space-y-4">
                                 <div className="rounded-2xl border border-dashed border-blue-200 bg-blue-50/50 p-4">
-                                    {imagePreviews.length > 0 ? (
+                                    {previewItems.length > 0 ? (
                                         <div className="space-y-3">
-                                            <div className={`grid gap-3 ${imagePreviews.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-                                                {imagePreviews.map((preview, index) => (
-                                                    <div key={preview} className="relative overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
-                                                        <img src={preview} alt={`Preview ${index + 1}`} className="h-44 w-full object-cover" />
+                                            <div className={`grid gap-3 ${previewItems.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                                                {previewItems.map((preview, index) => (
+                                                    <div key={`${preview.type}-${preview.id || preview.url}-${index}`} className="relative overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-sm">
+                                                        <img src={preview.url} alt={`Preview ${index + 1}`} className="h-44 w-full object-cover" />
                                                         <button
                                                             type="button"
                                                             onClick={() => removeImage(index)}
@@ -878,12 +940,12 @@ const CreateItemPage = () => {
 
                         <div className="grid gap-4 p-4 sm:p-6 lg:grid-cols-[1.1fr_0.9fr]">
                             <div className="space-y-4">
-                                {imagePreviews.length > 0 && (
-                                    <div className={`grid gap-3 ${imagePreviews.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-                                        {imagePreviews.map((preview, index) => (
+                                {previewItems.length > 0 && (
+                                    <div className={`grid gap-3 ${previewItems.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                                        {previewItems.map((preview, index) => (
                                             <img
-                                                key={preview}
-                                                src={preview}
+                                                key={`${preview.type}-${preview.id || preview.url}-${index}`}
+                                                src={preview.url}
                                                 alt={`Preview ${index + 1}`}
                                                 className="h-36 w-full rounded-2xl border border-blue-100 object-cover shadow-sm"
                                             />
