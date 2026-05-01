@@ -1,0 +1,167 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* ── Base ─────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+:root {
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur-base: 280ms;
+  --dur-slow: 420ms;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* ── Global Motion (safe defaults) ───────────────────────────────── */
+a,
+button,
+input,
+textarea,
+select,
+[role="button"],
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  transition:
+    color var(--dur-fast) var(--ease-smooth),
+    background-color var(--dur-base) var(--ease-smooth),
+    border-color var(--dur-base) var(--ease-smooth),
+    box-shadow var(--dur-base) var(--ease-smooth),
+    transform var(--dur-fast) var(--ease-smooth),
+    opacity var(--dur-base) var(--ease-smooth);
+}
+
+button:active,
+[role="button"]:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+input,
+textarea,
+select {
+  transition:
+    border-color var(--dur-fast) var(--ease-smooth),
+    box-shadow var(--dur-fast) var(--ease-smooth),
+    background-color var(--dur-fast) var(--ease-smooth);
+}
+
+/* Cards/containers feel less abrupt when class/state changes */
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl,
+.shadow,
+.shadow-sm,
+.shadow-md,
+.shadow-lg,
+.shadow-xl,
+.border,
+.bg-white,
+.bg-slate-50,
+.bg-slate-100 {
+  transition:
+    background-color var(--dur-base) var(--ease-smooth),
+    border-color var(--dur-base) var(--ease-smooth),
+    box-shadow var(--dur-base) var(--ease-smooth),
+    transform var(--dur-fast) var(--ease-smooth),
+    opacity var(--dur-base) var(--ease-smooth);
+}
+
+/* Route/page change animation */
+@keyframes routeFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.route-fade {
+  animation: routeFadeIn var(--dur-slow) var(--ease-smooth) both;
+}
+
+/* Respect user accessibility preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+}
+
+/* ── Marquee Animation ────────────────────────────────────────────── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 15s linear infinite;
+}
+
+/* ── Leaflet z-index fix ──────────────────────────────────────────── */
+/*
+  The sticky Navbar uses z-50 (Tailwind = 50).
+  Leaflet's default tile pane is z-200, marker pane z-600, popup pane z-700.
+  We lower them so they stay inside the map container and don't bleed over
+  the navbar or other UI elements.
+*/
+.leaflet-pane {
+  z-index: 10 !important;
+}
+.leaflet-tile-pane {
+  z-index: 10 !important;
+}
+.leaflet-overlay-pane {
+  z-index: 11 !important;
+}
+.leaflet-marker-pane {
+  z-index: 12 !important;
+}
+.leaflet-tooltip-pane {
+  z-index: 13 !important;
+}
+.leaflet-popup-pane {
+  z-index: 14 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 15 !important;
+}
+/* Keep the map container itself below the navbar */
+.leaflet-container {
+  z-index: 1;
+}
+
+/* ── Custom Leaflet Popup ─────────────────────────────────────────── */
+.custom-popup .leaflet-popup-content-wrapper {
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+.custom-popup .leaflet-popup-content {
+  margin: 0;
+  width: 192px !important;
+}
+.custom-popup .leaflet-popup-tip-container {
+  margin-top: -1px;
+}

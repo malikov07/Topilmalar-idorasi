@@ -1,0 +1,199 @@
+{
+  "version": "1.0",
+  "fallback": {
+    "name": "Boshqa",
+    "name_uz": "Boshqa",
+    "name_en": "Other",
+    "name_ru": "Другое"
+  },
+  "main_categories": [
+    {
+      "name": "Elektronika",
+      "name_uz": "Elektronika",
+      "name_en": "Electronics",
+      "name_ru": "Электроника",
+      "subcategories": [
+        { "name": "Telefonlar", "name_uz": "Telefonlar", "name_en": "Phones", "name_ru": "Телефоны" },
+        { "name": "Planshetlar", "name_uz": "Planshetlar", "name_en": "Tablets", "name_ru": "Планшеты" },
+        { "name": "Noutbuklar", "name_uz": "Noutbuklar", "name_en": "Laptops", "name_ru": "Ноутбуки" },
+        { "name": "Smart soatlar", "name_uz": "Smart soatlar", "name_en": "Smartwatches", "name_ru": "Смарт-часы" },
+        { "name": "Quloqchinlar", "name_uz": "Quloqchinlar", "name_en": "Headphones", "name_ru": "Наушники" },
+        { "name": "Zaryadlovchi va kabellar", "name_uz": "Zaryadlovchi va kabellar", "name_en": "Chargers & Cables", "name_ru": "Зарядки и кабели" },
+        { "name": "Kameralar", "name_uz": "Kameralar", "name_en": "Cameras", "name_ru": "Камеры" }
+      ]
+    },
+    {
+      "name": "Hujjatlar",
+      "name_uz": "Hujjatlar",
+      "name_en": "Documents",
+      "name_ru": "Документы",
+      "subcategories": [
+        { "name": "Pasport", "name_uz": "Pasport", "name_en": "Passport", "name_ru": "Паспорт" },
+        { "name": "ID karta", "name_uz": "ID karta", "name_en": "ID Card", "name_ru": "ID-карта" },
+        { "name": "Haydovchilik guvohnomasi", "name_uz": "Haydovchilik guvohnomasi", "name_en": "Driver License", "name_ru": "Водительские права" },
+        { "name": "Talabalik guvohnomasi", "name_uz": "Talabalik guvohnomasi", "name_en": "Student Card", "name_ru": "Студенческий билет" },
+        { "name": "Bank kartalar", "name_uz": "Bank kartalar", "name_en": "Bank Cards", "name_ru": "Банковские карты" },
+        { "name": "Kalit hujjatlar papkasi", "name_uz": "Kalit hujjatlar papkasi", "name_en": "Document Folder", "name_ru": "Папка документов" }
+      ]
+    },
+    {
+      "name": "Kiyim va aksessuarlar",
+      "name_uz": "Kiyim va aksessuarlar",
+      "name_en": "Clothing & Accessories",
+      "name_ru": "Одежда и аксессуары",
+      "subcategories": [
+        { "name": "Erkaklar kiyimi", "name_uz": "Erkaklar kiyimi", "name_en": "Men Clothing", "name_ru": "Мужская одежда" },
+        { "name": "Ayollar kiyimi", "name_uz": "Ayollar kiyimi", "name_en": "Women Clothing", "name_ru": "Женская одежда" },
+        { "name": "Bolalar kiyimi", "name_uz": "Bolalar kiyimi", "name_en": "Kids Clothing", "name_ru": "Детская одежда" },
+        { "name": "Poyabzal", "name_uz": "Poyabzal", "name_en": "Shoes", "name_ru": "Обувь" },
+        { "name": "Ko'zoynak", "name_uz": "Ko'zoynak", "name_en": "Glasses", "name_ru": "Очки" },
+        { "name": "Soat va zargarlik", "name_uz": "Soat va zargarlik", "name_en": "Watches & Jewelry", "name_ru": "Часы и украшения" }
+      ]
+    },
+    {
+      "name": "Sumka va hamyon",
+      "name_uz": "Sumka va hamyon",
+      "name_en": "Bags & Wallets",
+      "name_ru": "Сумки и кошельки",
+      "subcategories": [
+        { "name": "Qo'l sumka", "name_uz": "Qo'l sumka", "name_en": "Handbag", "name_ru": "Сумка" },
+        { "name": "Ryukzak", "name_uz": "Ryukzak", "name_en": "Backpack", "name_ru": "Рюкзак" },
+        { "name": "Hamyon", "name_uz": "Hamyon", "name_en": "Wallet", "name_ru": "Кошелек" },
+        { "name": "Portfel", "name_uz": "Portfel", "name_en": "Briefcase", "name_ru": "Портфель" },
+        { "name": "Sayohat sumkasi", "name_uz": "Sayohat sumkasi", "name_en": "Travel Bag", "name_ru": "Дорожная сумка" }
+      ]
+    },
+    {
+      "name": "Uy va kalitlar",
+      "name_uz": "Uy va kalitlar",
+      "name_en": "Home & Keys",
+      "name_ru": "Дом и ключи",
+      "subcategories": [
+        { "name": "Uy kalitlari", "name_uz": "Uy kalitlari", "name_en": "House Keys", "name_ru": "Ключи от дома" },
+        { "name": "Avto kalitlar", "name_uz": "Avto kalitlar", "name_en": "Car Keys", "name_ru": "Ключи от авто" },
+        { "name": "Kalit bog'lam", "name_uz": "Kalit bog'lam", "name_en": "Keychain", "name_ru": "Связка ключей" },
+        { "name": "Masofadan boshqaruv", "name_uz": "Masofadan boshqaruv", "name_en": "Remote Control", "name_ru": "Пульт" },
+        { "name": "Uy buyumlari", "name_uz": "Uy buyumlari", "name_en": "Household Items", "name_ru": "Бытовые вещи" }
+      ]
+    },
+    {
+      "name": "Transport",
+      "name_uz": "Transport",
+      "name_en": "Transport",
+      "name_ru": "Транспорт",
+      "subcategories": [
+        { "name": "Avtomobil aksessuarlari", "name_uz": "Avtomobil aksessuarlari", "name_en": "Car Accessories", "name_ru": "Автоаксессуары" },
+        { "name": "Mototsikl aksessuarlari", "name_uz": "Mototsikl aksessuarlari", "name_en": "Motorcycle Accessories", "name_ru": "Мотоаксессуары" },
+        { "name": "Velosiped", "name_uz": "Velosiped", "name_en": "Bicycle", "name_ru": "Велосипед" },
+        { "name": "Transport hujjatlari", "name_uz": "Transport hujjatlari", "name_en": "Vehicle Documents", "name_ru": "Документы на авто" },
+        { "name": "Jamoat transporti kartasi", "name_uz": "Jamoat transporti kartasi", "name_en": "Transport Card", "name_ru": "Транспортная карта" }
+      ]
+    },
+    {
+      "name": "Bolalar buyumlari",
+      "name_uz": "Bolalar buyumlari",
+      "name_en": "Kids & Baby",
+      "name_ru": "Детские товары",
+      "subcategories": [
+        { "name": "Aravacha", "name_uz": "Aravacha", "name_en": "Stroller", "name_ru": "Коляска" },
+        { "name": "O'yinchoqlar", "name_uz": "O'yinchoqlar", "name_en": "Toys", "name_ru": "Игрушки" },
+        { "name": "Maktab sumkasi", "name_uz": "Maktab sumkasi", "name_en": "School Bag", "name_ru": "Школьный рюкзак" },
+        { "name": "Bolalar kiyimi", "name_uz": "Bolalar kiyimi", "name_en": "Children Clothes", "name_ru": "Детская одежда" },
+        { "name": "Bolalar hujjatlari", "name_uz": "Bolalar hujjatlari", "name_en": "Children Documents", "name_ru": "Детские документы" }
+      ]
+    },
+    {
+      "name": "Sport va hordiq",
+      "name_uz": "Sport va hordiq",
+      "name_en": "Sports & Leisure",
+      "name_ru": "Спорт и отдых",
+      "subcategories": [
+        { "name": "Sport sumkasi", "name_uz": "Sport sumkasi", "name_en": "Gym Bag", "name_ru": "Спортивная сумка" },
+        { "name": "Fitnes anjomlari", "name_uz": "Fitnes anjomlari", "name_en": "Fitness Gear", "name_ru": "Фитнес инвентарь" },
+        { "name": "To'p va inventar", "name_uz": "To'p va inventar", "name_en": "Balls & Equipment", "name_ru": "Мячи и инвентарь" },
+        { "name": "Turistik anjomlar", "name_uz": "Turistik anjomlar", "name_en": "Camping Gear", "name_ru": "Туристическое снаряжение" },
+        { "name": "Musiqa anjomlari", "name_uz": "Musiqa anjomlari", "name_en": "Music Equipment", "name_ru": "Музыкальные инструменты" }
+      ]
+    },
+    {
+      "name": "Hayvonlar",
+      "name_uz": "Hayvonlar",
+      "name_en": "Pets",
+      "name_ru": "Животные",
+      "subcategories": [
+        { "name": "Yo'qolgan mushuk", "name_uz": "Yo'qolgan mushuk", "name_en": "Lost Cat", "name_ru": "Потерянная кошка" },
+        { "name": "Yo'qolgan it", "name_uz": "Yo'qolgan it", "name_en": "Lost Dog", "name_ru": "Потерянная собака" },
+        { "name": "Hayvon aksessuarlari", "name_uz": "Hayvon aksessuarlari", "name_en": "Pet Accessories", "name_ru": "Аксессуары для животных" },
+        { "name": "Hayvon hujjatlari", "name_uz": "Hayvon hujjatlari", "name_en": "Pet Documents", "name_ru": "Документы на животное" }
+      ]
+    },
+    {
+      "name": "Tibbiyot va sog'liq",
+      "name_uz": "Tibbiyot va sog'liq",
+      "name_en": "Health & Medical",
+      "name_ru": "Здоровье и медицина",
+      "subcategories": [
+        { "name": "Ko'zoynak va linza", "name_uz": "Ko'zoynak va linza", "name_en": "Glasses & Lenses", "name_ru": "Очки и линзы" },
+        { "name": "Dori qutisi", "name_uz": "Dori qutisi", "name_en": "Medicine Kit", "name_ru": "Аптечка" },
+        { "name": "Tibbiy hujjatlar", "name_uz": "Tibbiy hujjatlar", "name_en": "Medical Documents", "name_ru": "Медицинские документы" },
+        { "name": "Tibbiy qurilmalar", "name_uz": "Tibbiy qurilmalar", "name_en": "Medical Devices", "name_ru": "Медицинские устройства" }
+      ]
+    },
+    {
+      "name": "Asbob va ish anjomlari",
+      "name_uz": "Asbob va ish anjomlari",
+      "name_en": "Tools & Work",
+      "name_ru": "Инструменты и работа",
+      "subcategories": [
+        { "name": "Qo'l asboblari", "name_uz": "Qo'l asboblari", "name_en": "Hand Tools", "name_ru": "Ручные инструменты" },
+        { "name": "Elektr asboblar", "name_uz": "Elektr asboblar", "name_en": "Power Tools", "name_ru": "Электроинструменты" },
+        { "name": "Ish guvohnoma", "name_uz": "Ish guvohnoma", "name_en": "Work Badge", "name_ru": "Рабочий бейдж" },
+        { "name": "Ish sumkasi", "name_uz": "Ish sumkasi", "name_en": "Work Bag", "name_ru": "Рабочая сумка" }
+      ]
+    },
+    {
+      "name": "Kitoblar va ofis",
+      "name_uz": "Kitoblar va ofis",
+      "name_en": "Books & Office",
+      "name_ru": "Книги и офис",
+      "subcategories": [
+        { "name": "Kitoblar", "name_uz": "Kitoblar", "name_en": "Books", "name_ru": "Книги" },
+        { "name": "Daftar va bloknot", "name_uz": "Daftar va bloknot", "name_en": "Notebooks", "name_ru": "Тетради" },
+        { "name": "Ofis anjomlari", "name_uz": "Ofis anjomlari", "name_en": "Office Supplies", "name_ru": "Офисные принадлежности" },
+        { "name": "Noutbuk sumkasi", "name_uz": "Noutbuk sumkasi", "name_en": "Laptop Bag", "name_ru": "Сумка для ноутбука" }
+      ]
+    },
+    {
+      "name": "Pul va qimmatbaho buyumlar",
+      "name_uz": "Pul va qimmatbaho buyumlar",
+      "name_en": "Money & Valuables",
+      "name_ru": "Деньги и ценности",
+      "subcategories": [
+        { "name": "Naqd pul", "name_uz": "Naqd pul", "name_en": "Cash", "name_ru": "Наличные" },
+        { "name": "Tanga va kolleksiya", "name_uz": "Tanga va kolleksiya", "name_en": "Coins & Collection", "name_ru": "Монеты и коллекция" },
+        { "name": "Qimmatbaho taqinchoq", "name_uz": "Qimmatbaho taqinchoq", "name_en": "Valuable Jewelry", "name_ru": "Ценные украшения" },
+        { "name": "Seyf buyumlari", "name_uz": "Seyf buyumlari", "name_en": "Safe Items", "name_ru": "Вещи из сейфа" }
+      ]
+    },
+    {
+      "name": "Oziq-ovqat va kundalik buyum",
+      "name_uz": "Oziq-ovqat va kundalik buyum",
+      "name_en": "Food & Daily Goods",
+      "name_ru": "Еда и повседневные товары",
+      "subcategories": [
+        { "name": "Termos va idish", "name_uz": "Termos va idish", "name_en": "Thermos & Container", "name_ru": "Термос и контейнер" },
+        { "name": "Suv idishi", "name_uz": "Suv idishi", "name_en": "Water Bottle", "name_ru": "Бутылка" },
+        { "name": "Kundalik to'plam", "name_uz": "Kundalik to'plam", "name_en": "Daily Kit", "name_ru": "Повседневный набор" }
+      ]
+    },
+    {
+      "name": "Boshqa",
+      "name_uz": "Boshqa",
+      "name_en": "Other",
+      "name_ru": "Другое",
+      "subcategories": [
+        { "name": "Aniqlanmagan", "name_uz": "Aniqlanmagan", "name_en": "Uncategorized", "name_ru": "Без категории" }
+      ]
+    }
+  ]
+}
