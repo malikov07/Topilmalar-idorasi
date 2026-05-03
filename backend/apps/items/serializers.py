@@ -35,7 +35,7 @@ class ItemSerializer(serializers.ModelSerializer):
             'id', 'title', 'description', 'category', 'categories', 'user', 'owner_name',
             'date_lost_or_found', 'contact_info', 'latitude', 'longitude',
             'location_address', 'is_resolved', 'status', 'images', 
-            'uploaded_images', 'owner_picture', 'is_saved', 'created_at', 'views_count',
+            'uploaded_images', 'removed_image_ids', 'owner_picture', 'is_saved', 'created_at', 'views_count',
             'is_processed'
         ]
         read_only_fields = ['user', 'is_processed', 'categories']
