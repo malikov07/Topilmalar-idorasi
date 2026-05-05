@@ -19,7 +19,12 @@
         { "name": "Smart soatlar", "name_uz": "Smart soatlar", "name_en": "Smartwatches", "name_ru": "Смарт-часы" },
         { "name": "Quloqchinlar", "name_uz": "Quloqchinlar", "name_en": "Headphones", "name_ru": "Наушники" },
         { "name": "Zaryadlovchi va kabellar", "name_uz": "Zaryadlovchi va kabellar", "name_en": "Chargers & Cables", "name_ru": "Зарядки и кабели" },
-        { "name": "Kameralar", "name_uz": "Kameralar", "name_en": "Cameras", "name_ru": "Камеры" }
+        { "name": "Kameralar", "name_uz": "Kameralar", "name_en": "Cameras", "name_ru": "Камеры" },
+        { "name": "Klaviatura", "name_uz": "Klaviatura", "name_en": "Keyboard", "name_ru": "Клавиатура" },
+        { "name": "Sichqoncha", "name_uz": "Sichqoncha", "name_en": "Computer Mouse", "name_ru": "Компьютерная мышь" },
+        { "name": "Monitor", "name_uz": "Monitor", "name_en": "Monitor", "name_ru": "Монитор" },
+        { "name": "Printer", "name_uz": "Printer", "name_en": "Printer", "name_ru": "Принтер" },
+        { "name": "Kompyuter aksessuarlari", "name_uz": "Kompyuter aksessuarlari", "name_en": "Computer Accessories", "name_ru": "Компьютерные аксессуары" }
       ]
     },
     {
@@ -33,6 +38,8 @@
         { "name": "Haydovchilik guvohnomasi", "name_uz": "Haydovchilik guvohnomasi", "name_en": "Driver License", "name_ru": "Водительские права" },
         { "name": "Talabalik guvohnomasi", "name_uz": "Talabalik guvohnomasi", "name_en": "Student Card", "name_ru": "Студенческий билет" },
         { "name": "Bank kartalar", "name_uz": "Bank kartalar", "name_en": "Bank Cards", "name_ru": "Банковские карты" },
+        { "name": "Kredit karta", "name_uz": "Kredit karta", "name_en": "Credit Card", "name_ru": "Кредитная карта" },
+        { "name": "Metro karta", "name_uz": "Metro karta", "name_en": "Metro Card", "name_ru": "Карта метро" },
         { "name": "Kalit hujjatlar papkasi", "name_uz": "Kalit hujjatlar papkasi", "name_en": "Document Folder", "name_ru": "Папка документов" }
       ]
     },
@@ -125,6 +132,19 @@
         { "name": "Yo'qolgan it", "name_uz": "Yo'qolgan it", "name_en": "Lost Dog", "name_ru": "Потерянная собака" },
         { "name": "Hayvon aksessuarlari", "name_uz": "Hayvon aksessuarlari", "name_en": "Pet Accessories", "name_ru": "Аксессуары для животных" },
         { "name": "Hayvon hujjatlari", "name_uz": "Hayvon hujjatlari", "name_en": "Pet Documents", "name_ru": "Документы на животное" }
+      ]
+    },
+    {
+      "name": "Ko'ngilochar va hobbi",
+      "name_uz": "Ko'ngilochar va hobbi",
+      "name_en": "Entertainment & Hobbies",
+      "name_ru": "Развлечения и хобби",
+      "subcategories": [
+        { "name": "O'yin konsollari", "name_uz": "O'yin konsollari", "name_en": "Gaming Consoles", "name_ru": "Игровые консоли" },
+        { "name": "Video o'yinlar", "name_uz": "Video o'yinlar", "name_en": "Video Games", "name_ru": "Видеоигры" },
+        { "name": "Musiqa asboblari", "name_uz": "Musiqa asboblari", "name_en": "Musical Instruments", "name_ru": "Музыкальные инструменты" },
+        { "name": "Fotoalbom", "name_uz": "Fotoalbom", "name_en": "Photo Album", "name_ru": "Фотоальбом" },
+        { "name": "Kolleksiya buyumlari", "name_uz": "Kolleksiya buyumlari", "name_en": "Collectibles", "name_ru": "Коллекционные предметы" }
       ]
     },
     {

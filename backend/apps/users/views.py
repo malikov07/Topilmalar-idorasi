@@ -96,7 +96,7 @@ class RegisterView(generics.CreateAPIView):
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                     'is_verified': user.is_verified,
-                    'avatar': user.avatar.url if user.avatar else None
+                    'avatar': request.build_absolute_uri(user.avatar.url) if user.avatar else None
                 },
                 'tokens': {
                     'refresh': str(refresh),
@@ -151,20 +151,29 @@ class GoogleLoginView(APIView):
             # 4. DOWNLOAD AND SAVE THE AVATAR
             # If Google gave us a picture, and the user doesn't already have one saved
             if picture_url and not user.avatar:
-                img_response = requests.get(picture_url)
-                
-                if img_response.status_code == 200:
-                    # Create a safe, unique filename
-                    file_name = f"google_avatar_{user.id}.jpg"
-                    # Convert the internet data into a Django File and save it
-                    user.avatar.save(file_name, ContentFile(img_response.content), save=True)
+                try:
+                    img_response = requests.get(picture_url, timeout=5)
+                    
+                    if img_response.status_code == 200:
+                        # Create a safe, unique filename
+                        file_name = f"google_avatar_{user.id}.jpg"
+                        # Convert the internet data into a Django File and save it
+                        user.avatar.save(file_name, ContentFile(img_response.content), save=True)
+                except Exception:
+                    pass
 
             # 5. Generate JWT Tokens
             refresh = RefreshToken.for_user(user)
 
             avatar_url = None
             if user.avatar and hasattr(user.avatar, 'url'):
-                avatar_url = request.build_absolute_uri(user.avatar.url)
+                try:
+                    avatar_url = request.build_absolute_uri(user.avatar.url)
+                except Exception:
+                    avatar_url = getattr(user.avatar, 'url', None)
+            
+            if not avatar_url and picture_url:
+                avatar_url = picture_url
 
             return Response({
                 'user': {
