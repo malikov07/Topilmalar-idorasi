@@ -26,6 +26,6 @@ dist-ssr
 .env
 frontend/.env
 backend/.env
-backend/media
+# backend/media
 backend/staticfiles
 _pycache__/
