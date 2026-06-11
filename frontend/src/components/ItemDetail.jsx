@@ -155,6 +155,23 @@ export default function ItemDetail() {
     }
   };
 
+  const handleStartChat = async () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const response = await api.post('/api/chat/conversations/', { item: item.id });
+      navigate(`/chat/${response.data.id}`);
+    } catch (err) {
+      console.error('Failed to start chat:', err);
+    }
+  };
+
+  const myId = String(user?.id || user?.user_id || '');
+  const isOwner = Boolean(user) && String(item?.user) === myId;
+
   return (
     <div className="bg-white min-h-screen pb-5 pt-3">
       <div className="max-w-[85%] mx-auto">
@@ -289,9 +306,14 @@ export default function ItemDetail() {
                       <Phone size={16} className="shrink-0" /> {t('itemDetail.noPhone')}
                     </div>
                   )}
-                  <button className="flex-1 bg-white border border-slate-200 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-700 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2">
-                    <MessageCircle size={16} className="shrink-0" /> {t('itemDetail.message')}
-                  </button>
+                  {!isOwner && (
+                    <button
+                      onClick={handleStartChat}
+                      className="flex-1 bg-white border border-slate-200 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-700 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2"
+                    >
+                      <MessageCircle size={16} className="shrink-0" /> {t('itemDetail.message')}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

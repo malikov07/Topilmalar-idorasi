@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, User, LogOut, Settings, FileText, AlertTriangle, Globe } from 'lucide-react';
+import { Search, Menu, X, User, LogOut, Settings, FileText, AlertTriangle, Globe, MessageCircle } from 'lucide-react';
 import Dropdown from './DropDown';
 import { useAuth } from '../context/AuthContext';
+import { useChat } from '../context/ChatContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -9,6 +10,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { user, logoutUser } = useAuth();
+  const { unreadTotal } = useChat();
   const { language, setLanguage, t } = useLanguage();
   const BACKEND_URL = "http://127.0.0.1:8000";
 
@@ -106,6 +108,22 @@ export default function Navbar() {
               {t('createItem.title').split(' ').slice(0, 2).join(' ')}
             </button>
           </Link>
+
+          {/* Chat icon */}
+          {user && (
+            <Link
+              to="/chat"
+              className="relative p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
+              aria-label={t('chat.title')}
+            >
+              <MessageCircle size={22} />
+              {unreadTotal > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-4 h-4 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {unreadTotal > 9 ? '9+' : unreadTotal}
+                </span>
+              )}
+            </Link>
+          )}
 
           {/* User dropdown */}
           {user ? (
@@ -224,6 +242,19 @@ export default function Navbar() {
                 >
                   <FileText size={16} className="text-slate-400" />
                   {t('profile.myItems')}
+                </Link>
+                <Link
+                  to="/chat"
+                  onClick={closeMobileMenu}
+                  className="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-colors"
+                >
+                  <MessageCircle size={16} className="text-slate-400" />
+                  {t('chat.title')}
+                  {unreadTotal > 0 && (
+                    <span className="ml-auto min-w-5 h-5 px-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                      {unreadTotal > 9 ? '9+' : unreadTotal}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   to="/settings"

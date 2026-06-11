@@ -272,6 +272,16 @@ export const translations = {
       memberSince: "Ro'yxatdan o'tgan",
     },
 
+    // Chat
+    chat: {
+      title: "Xabarlar",
+      empty: "Hozircha suhbatlar yo'q",
+      selectPrompt: "Suhbatni ko'rish uchun uni tanlang",
+      noMessages: "Hali xabarlar yo'q. Birinchi bo'lib yozing!",
+      inputPlaceholder: "Xabar yozing...",
+      loading: "Yuklanmoqda...",
+    },
+
     // Profile Edit
     profileEdit: {
       backToProfile: "Profilga qaytish",
@@ -732,6 +742,16 @@ export const translations = {
       memberSince: "На сайте с",
     },
 
+    // Chat
+    chat: {
+      title: "Сообщения",
+      empty: "Пока нет диалогов",
+      selectPrompt: "Выберите диалог, чтобы посмотреть его",
+      noMessages: "Сообщений пока нет. Напишите первым!",
+      inputPlaceholder: "Напишите сообщение...",
+      loading: "Загрузка...",
+    },
+
     // Profile Edit
     profileEdit: {
       backToProfile: "Вернуться в профиль",
@@ -1190,6 +1210,16 @@ export const translations = {
       loadMoreButton: "Load more",
       publicPosts: "Listings",
       memberSince: "Member since",
+    },
+
+    // Chat
+    chat: {
+      title: "Messages",
+      empty: "No conversations yet",
+      selectPrompt: "Select a conversation to view it",
+      noMessages: "No messages yet. Be the first to write!",
+      inputPlaceholder: "Type a message...",
+      loading: "Loading...",
     },
 
     // Profile Edit

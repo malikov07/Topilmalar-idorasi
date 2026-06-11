@@ -3,6 +3,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import './App.css'
 // ... all your other imports ...
 import { AuthProvider } from './context/AuthContext';
+import { ChatProvider } from './context/ChatContext';
 import { LanguageProvider } from './context/LanguageContext';
 import PrivateRoute from './utils/PrivateRoute';
 import Navbar from './components/Navbar';
@@ -23,6 +24,7 @@ import Profile from './components/Profile';
 import PublicProfile from './components/PublicProfile';
 import ProfileEdit from './components/ProfileEdit';
 import MapSearchPage from "./components/MapSearchPage";
+import ChatPage from './components/ChatPage';
 
 function AppRoutes() {
   const location = useLocation();
@@ -59,6 +61,8 @@ function AppRoutes() {
 
           <Route path="/profile" element={<><Profile /><Footer /></>} />
           <Route path="/settings" element={<><ProfileEdit /><Footer /></>} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/chat/:conversationId" element={<ChatPage />} />
 
           {/* You must define a path (like "/") and put your components inside the 'element' prop */}
 
@@ -75,9 +79,11 @@ function App() {
       <LanguageProvider>
         <Router>
           <AuthProvider>
-            {/* Navbar is outside Routes, so it always shows at the top */}
-            <Navbar />
-            <AppRoutes />
+            <ChatProvider>
+              {/* Navbar is outside Routes, so it always shows at the top */}
+              <Navbar />
+              <AppRoutes />
+            </ChatProvider>
         </AuthProvider>
         </Router>
       </LanguageProvider>

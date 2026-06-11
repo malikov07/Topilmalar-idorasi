@@ -60,6 +60,7 @@ SPECTACULAR_SETTINGS = {
 apps = [
     'apps.users',
     'apps.items',
+    'apps.chat',
 ]
 
 installed_libs = [
@@ -69,6 +70,7 @@ installed_libs = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'import_export',
+    'channels',
 ]
 
 django_default_libs = [
@@ -80,7 +82,8 @@ django_default_libs = [
     'django.contrib.staticfiles',
 ]
 
-INSTALLED_APPS = django_default_libs + apps + installed_libs
+# 'daphne' must come first so it overrides the runserver command with an ASGI server.
+INSTALLED_APPS = ['daphne'] + django_default_libs + apps + installed_libs
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,6 +131,30 @@ STATICFILES_DIRS = [
 ]
 
 WSGI_APPLICATION = 'lost_items.wsgi.application'
+ASGI_APPLICATION = 'lost_items.asgi.application'
+
+
+def _redis_available(host='127.0.0.1', port=6379):
+    """Quick probe so chat works in dev (in-memory) and prod (Redis) with no config."""
+    import socket
+    try:
+        with socket.create_connection((host, port), timeout=0.3):
+            return True
+    except OSError:
+        return False
+
+
+if _redis_available():
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {'hosts': [('127.0.0.1', 6379)]},
+        },
+    }
+else:
+    CHANNEL_LAYERS = {
+        'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer'},
+    }
 
 
 # Database

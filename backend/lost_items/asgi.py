@@ -1,10 +1,7 @@
 """
 ASGI config for lost_items project.
 
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/6.0/howto/deployment/asgi/
+Routes HTTP to Django and WebSocket to the chat consumers (JWT-authenticated).
 """
 
 import os
@@ -13,4 +10,15 @@ from django.core.asgi import get_asgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lost_items.settings')
 
-application = get_asgi_application()
+# Initialise the Django ASGI application early so the app registry is populated
+# before importing code that touches models (consumers / routing).
+django_asgi_app = get_asgi_application()
+
+from channels.routing import ProtocolTypeRouter, URLRouter  # noqa: E402
+from apps.chat.middleware import JWTAuthMiddleware  # noqa: E402
+from apps.chat.routing import websocket_urlpatterns  # noqa: E402
+
+application = ProtocolTypeRouter({
+    'http': django_asgi_app,
+    'websocket': JWTAuthMiddleware(URLRouter(websocket_urlpatterns)),
+})
