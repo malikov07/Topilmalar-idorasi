@@ -62,7 +62,6 @@ export default function Navbar() {
 
         {/* Desktop Nav Links — visible from lg+ */}
         <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-[#0F172A] font-semibold text-sm flex-1 justify-center">
-          <Link to="/" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('navbar.homeLink')}</Link>
           <Link to="/items" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('navbar.searchLink')}</Link>
           {user && <Link to="/profile" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('navbar.profileLink')}</Link>}
           <Link to="/contact" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('footer.contact')}</Link>
@@ -201,13 +200,6 @@ export default function Navbar() {
             </div>
 
             {/* Nav links */}
-            <Link
-              to="/"
-              onClick={closeMobileMenu}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-colors"
-            >
-              {t('navbar.homeLink')}
-            </Link>
             <Link
               to="/items"
               onClick={closeMobileMenu}
