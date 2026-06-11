@@ -65,6 +65,7 @@ export default function Navbar() {
           <Link to="/" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('navbar.homeLink')}</Link>
           <Link to="/items" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('navbar.searchLink')}</Link>
           {user && <Link to="/profile" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('navbar.profileLink')}</Link>}
+          <Link to="/contact" className="hover:text-blue-600 transition-colors whitespace-nowrap">{t('footer.contact')}</Link>
         </div>
 
         {/* Right Side — visible from md+ */}
@@ -213,6 +214,13 @@ export default function Navbar() {
               className="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-colors"
             >
               {t('navbar.searchLink')}
+            </Link>
+            <Link
+              to="/contact"
+              onClick={closeMobileMenu}
+              className="flex items-center gap-3 px-3 py-3 rounded-xl text-slate-700 font-semibold hover:bg-slate-50 transition-colors"
+            >
+              {t('footer.contact')}
             </Link>
 
             {user ? (

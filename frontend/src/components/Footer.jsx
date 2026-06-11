@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
@@ -21,7 +22,7 @@ export default function Footer() {
               <h4 className="font-bold text-slate-900 mb-4">{t('footer.aboutUs')}</h4>
               <ul className="space-y-2 text-sm text-slate-500">
                 <li><a href="#" className="hover:text-blue-600 transition-colors">{t('footer.aboutUs')}</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">{t('footer.contact')}</a></li>
+                <li><Link to="/contact" className="hover:text-blue-600 transition-colors">{t('footer.contact')}</Link></li>
               </ul>
             </div>
 

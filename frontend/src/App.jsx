@@ -25,6 +25,7 @@ import PublicProfile from './components/PublicProfile';
 import ProfileEdit from './components/ProfileEdit';
 import MapSearchPage from "./components/MapSearchPage";
 import ChatPage from './components/ChatPage';
+import Contact from './components/Contact';
 
 function AppRoutes() {
   const location = useLocation();
@@ -42,6 +43,7 @@ function AppRoutes() {
         <Route path="/items" element={<MapSearchPage />} />
         <Route path="/items/:id" element={<ItemDetail />} />
         <Route path="/users/:id" element={<><PublicProfile /><Footer /></>} />
+        <Route path="/contact" element={<><Contact /><Footer /></>} />
 
         <Route path="/" element={
             <>

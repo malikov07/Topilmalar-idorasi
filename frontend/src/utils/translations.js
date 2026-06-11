@@ -380,6 +380,19 @@ export const translations = {
       user: "Foydalanuvchi",
     },
 
+    // Contact page
+    contact: {
+      title: "Biz bilan bog'laning",
+      subtitle: "Savollaringiz bormi? Biz bilan bog'laning yoki ofisimizga tashrif buyuring.",
+      infoTitle: "Aloqa ma'lumotlari",
+      address: "Manzil",
+      phone: "Telefon",
+      email: "Email",
+      hours: "Ish vaqti",
+      mapTitle: "Bizni xaritadan toping",
+      followUs: "Bizni kuzating",
+    },
+
     // Footer
     footer: {
       aboutUs: "Biz haqida",
@@ -851,6 +864,18 @@ export const translations = {
     },
 
     // Footer
+    contact: {
+      title: "Свяжитесь с нами",
+      subtitle: "Есть вопросы? Свяжитесь с нами или посетите наш офис.",
+      infoTitle: "Контактная информация",
+      address: "Адрес",
+      phone: "Телефон",
+      email: "Email",
+      hours: "Часы работы",
+      mapTitle: "Найдите нас на карте",
+      followUs: "Подписывайтесь на нас",
+    },
+
     footer: {
       aboutUs: "О нас",
       contact: "Контакты",
@@ -1291,6 +1316,18 @@ export const translations = {
     },
 
     // Footer
+    contact: {
+      title: "Get in Touch",
+      subtitle: "Have questions? Contact us or visit our office.",
+      infoTitle: "Contact information",
+      address: "Address",
+      phone: "Phone",
+      email: "Email",
+      hours: "Working hours",
+      mapTitle: "Find us on the map",
+      followUs: "Follow us",
+    },
+
     footer: {
       aboutUs: "About Us",
       contact: "Contact",
