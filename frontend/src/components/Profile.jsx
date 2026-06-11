@@ -133,6 +133,7 @@ export default function Profile() {
                                     date={item.date_lost_or_found || "Noma'lum"}
                                     title={item.title}
                                     author={item.owner_name}
+                                    authorId={item.user}
                                     image={imageUrl}
                                     authorImage={item.owner_picture || null}
                                     status={item.status}

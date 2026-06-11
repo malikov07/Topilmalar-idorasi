@@ -6,7 +6,7 @@ import api from '../service/api';
 import { useLanguage } from '../context/LanguageContext';
 
 // 1. onDetails propini qo'shdik
-const HomeCart = ({ date, title, author, authorImage, image, onDetails, onMap, itemId, initialSaved = false, onSavedChange }) => {
+const HomeCart = ({ date, title, author, authorId, authorImage, image, onDetails, onMap, itemId, initialSaved = false, onSavedChange }) => {
   const { user } = useAuth();
   const { t } = useLanguage();
   const noImagePlaceholder = false; // Default value for noImagePlaceholder
@@ -79,11 +79,14 @@ const HomeCart = ({ date, title, author, authorImage, image, onDetails, onMap, i
 
           {/* Author and Link Row */}
           <div className="flex justify-between items-center pt-1">
-            <div className="flex items-center gap-2 overflow-hidden flex-1">
+            <div
+              onClick={(e) => { if (authorId) { e.stopPropagation(); navigate(`/users/${authorId}`); } }}
+              className={`flex items-center gap-2 overflow-hidden flex-1 ${authorId ? 'cursor-pointer group/author' : ''}`}
+            >
               <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-slate-200 overflow-hidden shrink-0 border border-slate-100">
                 <img src={authorImage || 'https://via.placeholder.com/120x120?text=User'} alt={author} className="w-full h-full object-cover" />
               </div>
-              <span className="text-slate-500 font-medium text-xs sm:text-sm truncate">
+              <span className={`text-slate-500 font-medium text-xs sm:text-sm truncate ${authorId ? 'group-hover/author:text-[#1E85FF] group-hover/author:underline' : ''}`}>
                 {author || t('sections.ownerUnknown')}
               </span>
             </div>

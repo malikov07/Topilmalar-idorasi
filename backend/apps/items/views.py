@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, F
 from django.shortcuts import render
 from django.core.files.storage import default_storage
 import os
@@ -42,6 +42,7 @@ class ItemViewSet(viewsets.ModelViewSet):
         is_resolved = self.request.query_params.get('is_resolved')
         saved = self.request.query_params.get('saved')
         include_resolved = self.request.query_params.get('include_resolved')
+        user_id = self.request.query_params.get('user')
 
         if self.action == 'list' and include_resolved != 'true':
             qs = qs.filter(is_resolved=False)
@@ -72,8 +73,18 @@ class ItemViewSet(viewsets.ModelViewSet):
             qs = qs.filter(is_resolved=is_resolved.lower() == 'true')
         if saved == 'true' and self.request.user.is_authenticated:
             qs = qs.filter(saved_by__user=self.request.user)
+        if user_id:
+            qs = qs.filter(user_id=user_id)
 
         return qs
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Count one view per detail fetch (atomic, race-safe)
+        Item.objects.filter(pk=instance.pk).update(views_count=F('views_count') + 1)
+        instance.refresh_from_db(fields=['views_count'])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         # Absolute Security: Force the 'user' to be whoever is making the request

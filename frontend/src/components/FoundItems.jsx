@@ -17,8 +17,8 @@ export default function FoundItems() {
         , []);
 
     const fetchFourItems = async () => {
-        // Django will see limit=4 and only return 4 items!
-        const response = await api.get('/api/items/?status=FOUND&limit=4');
+        // Show the 8 most recent FOUND items (backend orders by -created_at)
+        const response = await api.get('/api/items/?status=FOUND&limit=8');
 
         // Note: When you turn on pagination, DRF wraps your data in a 'results' object
         const fetched = response.data.results || response.data || [];
@@ -55,6 +55,7 @@ export default function FoundItems() {
                             date={item.date_lost_or_found || "Noma'lum"}
                             title={item.title}
                             author={item.owner_name}
+                            authorId={item.user}
                             status={item.status}
                             location={item.location_address}
                             image={imageUrl}

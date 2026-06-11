@@ -91,3 +91,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return obj.has_usable_password()
 class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True)
+
+
+class PublicUserSerializer(serializers.ModelSerializer):
+    """Read-only public view of a user for their profile page."""
+    items_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'avatar', 'cover_image',
+                  'date_joined', 'is_verified', 'items_count']
+
+    def get_items_count(self, obj):
+        return obj.items.count()

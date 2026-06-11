@@ -53,10 +53,13 @@ const CreateItemPage = () => {
     const [isSafe, setIsSafe] = useState(true);
     const [rejectReason, setRejectReason] = useState(null);
 
+    // Default the date to today (local time, YYYY-MM-DD). Edit mode overrides this below.
+    const todayStr = new Date().toLocaleDateString('en-CA');
+
     const [status, setStatus] = useState('LOST');
     const [title, setTitle] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [dateLost, setDateLost] = useState('');
+    const [dateLost, setDateLost] = useState(todayStr);
     const [locationLost, setLocationLost] = useState('');
     const [isEditingAddress, setIsEditingAddress] = useState(false);
     const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
@@ -203,6 +206,13 @@ const CreateItemPage = () => {
         const compressed = await Promise.all(
             selected.map(async (file, index) => {
                 const blob = await imageCompression(file, options);
+                if (import.meta.env.DEV) {
+                    const toKB = (bytes) => (bytes / 1024).toFixed(0);
+                    console.log(
+                        `[image-compression] ${file.name}: ${toKB(file.size)}KB -> ${toKB(blob.size)}KB ` +
+                        `(${Math.round((1 - blob.size / file.size) * 100)}% smaller)`
+                    );
+                }
                 return new File([blob], file.name || `photo_${Date.now()}_${index}.jpg`, {
                     type: blob.type,
                 });

@@ -108,9 +108,11 @@ export default function MapSearchPage() {
     const markerRefs = useRef({});
     const [expandedCategories, setExpandedCategories] = useState([]);
 
-    // Pagination
-    const [currentPage, setCurrentPage] = useState(1);
+    // Infinite scroll (client-side reveal). We still fetch all items so the map
+    // keeps every marker; the list view just reveals more as the user scrolls.
     const ITEMS_PER_PAGE = 12;
+    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+    const sentinelRef = useRef(null);
 
     // Count active filters for badge
     const activeFilterCount = [category, status, startDate, endDate].filter(Boolean).length;
@@ -203,7 +205,7 @@ export default function MapSearchPage() {
             const queryString = `?${queryParams.join('&')}`;
             const res = await api.get(`/api/items/${queryString}`);
             setItems(res.data.results || res.data);
-            setCurrentPage(1);
+            setVisibleCount(ITEMS_PER_PAGE);
         } catch (err) {
             console.error("Failed to load items:", err);
         } finally {
@@ -219,13 +221,13 @@ export default function MapSearchPage() {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         setSearch(searchInput.trim());
-        setCurrentPage(1);
+        setVisibleCount(ITEMS_PER_PAGE);
         setShowMobileFilters(false);
     };
 
     const handleApplyFilters = () => {
         setSearch(searchInput.trim());
-        setCurrentPage(1);
+        setVisibleCount(ITEMS_PER_PAGE);
         setShowMobileFilters(false);
     };
 
@@ -236,7 +238,7 @@ export default function MapSearchPage() {
         setStatus('');
         setStartDate('');
         setEndDate('');
-        setCurrentPage(1);
+        setVisibleCount(ITEMS_PER_PAGE);
         setExpandedCategories([]);
         setShowMobileFilters(false);
         setShowCatalogPanel(false);
@@ -327,7 +329,7 @@ export default function MapSearchPage() {
         setShowCatalogPanel(false);
         setHoveredMainCategoryId('');
         setMobileCatalogMainId('');
-        setCurrentPage(1);
+        setVisibleCount(ITEMS_PER_PAGE);
     };
 
     const closeCatalogPanel = () => {
@@ -354,6 +356,27 @@ export default function MapSearchPage() {
         : items.length > 0 && items[0].latitude && items[0].longitude
             ? [items[0].latitude, items[0].longitude]
             : [41.2995, 69.2401];
+
+    // Reveal 12 more items whenever the bottom sentinel scrolls into view
+    useEffect(() => {
+        if (viewMode !== 'list') return;
+        const node = sentinelRef.current;
+        if (!node) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setVisibleCount((prev) =>
+                        prev < items.length ? prev + ITEMS_PER_PAGE : prev
+                    );
+                }
+            },
+            { rootMargin: '300px' }
+        );
+
+        observer.observe(node);
+        return () => observer.disconnect();
+    }, [viewMode, items.length, visibleCount]);
 
     // ── Reusable filter panel content ──────────────────────────────────────────
     const FilterPanel = ({ isMobile = false }) => (
@@ -669,7 +692,7 @@ export default function MapSearchPage() {
                                 <MapContainer
                                     key={`map-${viewMode}`}
                                     center={mapCenter}
-                                    zoom={12}
+                                    zoom={14}
                                     style={{ height: '100%', width: '100%' }}
                                     className="z-10"
                                 >
@@ -714,7 +737,7 @@ export default function MapSearchPage() {
                                     <>
                                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
                                             {items
-                                                .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                                                .slice(0, visibleCount)
                                                 .map(item => {
                                                     const firstImg = item.images && item.images.length > 0 ? item.images[0].image : null;
                                                     let finalImg = firstImg;
@@ -725,6 +748,7 @@ export default function MapSearchPage() {
                                                             date={item.date_lost_or_found || t('common.unknown')}
                                                             title={item.title}
                                                             author={item.owner_name}
+                                                            authorId={item.user}
                                                             image={finalImg}
                                                             authorImage={item.owner_picture}
                                                             onDetails={() => navigate(`/items/${item.id}`)}
@@ -737,22 +761,13 @@ export default function MapSearchPage() {
                                                 })}
                                         </div>
 
-                                        {/* Pagination */}
-                                        {items.length > ITEMS_PER_PAGE && (
-                                            <div className="flex justify-center items-center gap-3 mt-6 pb-2">
-                                                <button
-                                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                                                    disabled={currentPage === 1}
-                                                    className="px-4 py-2 bg-slate-100 rounded-lg text-xs font-bold text-slate-600 disabled:opacity-40 hover:bg-slate-200 transition-colors"
-                                                >{t('search.pagePrevious')}</button>
-                                                <span className="font-bold text-xs text-slate-700 min-w-[60px] text-center">
-                                                    {currentPage} / {Math.ceil(items.length / ITEMS_PER_PAGE)}
-                                                </span>
-                                                <button
-                                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(items.length / ITEMS_PER_PAGE)))}
-                                                    disabled={currentPage === Math.ceil(items.length / ITEMS_PER_PAGE)}
-                                                    className="px-4 py-2 bg-slate-100 rounded-lg text-xs font-bold text-slate-600 disabled:opacity-40 hover:bg-slate-200 transition-colors"
-                                                >{t('search.pageNext')}</button>
+                                        {/* Infinite scroll sentinel + spinner */}
+                                        {visibleCount < items.length && (
+                                            <div ref={sentinelRef} className="flex justify-center items-center py-8">
+                                                <svg className="animate-spin w-6 h-6 text-[#1E85FF]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                                </svg>
                                             </div>
                                         )}
                                     </>

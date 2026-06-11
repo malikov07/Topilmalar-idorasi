@@ -17,7 +17,7 @@ from google.auth.transport import requests as google_requests
 from django.conf import settings
 from django.utils.crypto import get_random_string
 from .models import User, OTP
-from .serializers import RegisterSerializer, GoogleSocialAuthSerializer, OTPVerificationSerializer,CustomTokenObtainPairSerializer, SendOTPSerializer, UserProfileSerializer
+from .serializers import RegisterSerializer, GoogleSocialAuthSerializer, OTPVerificationSerializer,CustomTokenObtainPairSerializer, SendOTPSerializer, UserProfileSerializer, PublicUserSerializer
 from .utils import send_otp_with_sdk  
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -260,6 +260,14 @@ class SendOTPView(APIView):
 
         return Response({"message": "OTP sent successfully."}, status=status.HTTP_200_OK)
     
+
+class PublicUserProfileView(generics.RetrieveAPIView):
+    """Public, read-only profile lookup by user id."""
+    queryset = User.objects.all()
+    serializer_class = PublicUserSerializer
+    permission_classes = [AllowAny]
+    lookup_field = 'pk'
+
 
 class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
     # Use the safe profile serializer!

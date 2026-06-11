@@ -234,16 +234,18 @@ export default function ItemDetail() {
                 <h1 className="flex-1 min-w-0 break-words text-2xl xs:text-3xl pb-2 md:text-4xl font-extrabold text-[#0F172A] font-sans leading-tight">
                   {item.title}
                 </h1>
-                <div className="flex flex-wrap gap-2 mb-2 shrink-0 max-h-16 w-full sm:w-auto">
-                  <div className="flex items-center gap-2 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap">
-                    <Clock size={16} /> {t('itemDetail.dateLabel')} {item.date_lost_or_found ? formatDateUz(item.date_lost_or_found) : t('common.unknown')}
+                <div className="flex flex-wrap items-center gap-1.5 mb-2 shrink-0 w-full sm:w-auto">
+                  <div className="flex items-center gap-1 bg-blue-50 text-blue-600 px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-semibold whitespace-nowrap">
+                    <Clock size={13} /> {item.date_lost_or_found ? formatDateUz(item.date_lost_or_found) : t('common.unknown')}
+                  </div>
+                  <div className="flex items-center gap-1 bg-slate-50 text-slate-500 px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-semibold whitespace-nowrap">
+                    <Eye size={13} /> {item.views_count ?? 0}
                   </div>
                   <button
                     onClick={handleToggleSaved}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold border transition-colors ${isSaved ? 'bg-red-50 text-red-600 border-red-100' : 'bg-white text-slate-600 border-slate-200 hover:border-red-200 hover:text-red-500'}`}
-                    style={{ minWidth: '100px' }}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-semibold border transition-colors ${isSaved ? 'bg-red-50 text-red-600 border-red-100' : 'bg-white text-slate-600 border-slate-200 hover:border-red-200 hover:text-red-500'}`}
                   >
-                    <Heart size={16} className={isSaved ? 'fill-current' : ''} />
+                    <Heart size={13} className={isSaved ? 'fill-current' : ''} />
                     {isSaved ? t('itemDetail.saved') : t('itemDetail.save')}
                   </button>
                 </div>
@@ -260,32 +262,35 @@ export default function ItemDetail() {
                 <h3 className="text-sm font-bold text-[#0F172A] mb-3">
                   {item.status === 'LOST' ? t('itemDetail.lostProfile') : t('itemDetail.foundProfile')}
                 </h3>
-                <div className="flex items-center gap-4 mb-4">
+                <div
+                  onClick={() => item.user && navigate(`/users/${item.user}`)}
+                  className={`flex items-center gap-4 mb-4 ${item.user ? 'cursor-pointer group/owner' : ''}`}
+                >
                   <img
                     src={getImageUrl(item.owner_picture)}
                     alt={item.owner_name}
                     className="w-14 h-14 rounded-2xl object-cover border border-slate-200"
                   />
                   <div>
-                    <h4 className="font-bold text-[#0F172A] text-lg">{item.owner_name}</h4>
+                    <h4 className={`font-bold text-[#0F172A] text-lg ${item.user ? 'group-hover/owner:text-[#3B82F6] group-hover/owner:underline' : ''}`}>{item.owner_name}</h4>
                     <p className="text-slate-400 text-sm">{item.location_address || t('itemDetail.unknownLocation')}</p>
                   </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   {item.contact_info ? (
                     <a
                       href={`tel:${item.contact_info}`}
-                      className="flex-1 bg-white border border-slate-200 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-700 py-2.5 rounded-xl font-semibold transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2"
+                      className="flex-1 min-w-0 bg-white border border-slate-200 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-700 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2"
                     >
-                      <Phone size={18} /> {item.contact_info}
+                      <Phone size={16} className="shrink-0" /> <span className="whitespace-nowrap">{item.contact_info}</span>
                     </a>
                   ) : (
-                    <div className="flex-1 bg-slate-50 border border-slate-200 text-slate-400 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 cursor-not-allowed">
-                      <Phone size={18} /> {t('itemDetail.noPhone')}
+                    <div className="flex-1 min-w-0 bg-slate-50 border border-slate-200 text-slate-400 py-2.5 px-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 cursor-not-allowed">
+                      <Phone size={16} className="shrink-0" /> {t('itemDetail.noPhone')}
                     </div>
                   )}
-                  <button className="flex-1 bg-white border border-slate-200 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-700 py-2.5 rounded-xl font-semibold transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2">
-                    <MessageCircle size={18} /> {t('itemDetail.message')}
+                  <button className="flex-1 bg-white border border-slate-200 hover:border-[#3B82F6] hover:text-[#3B82F6] text-slate-700 py-2.5 px-3 rounded-xl font-semibold text-sm transition-all shadow-sm active:scale-95 flex items-center justify-center gap-2">
+                    <MessageCircle size={16} className="shrink-0" /> {t('itemDetail.message')}
                   </button>
                 </div>
               </div>
@@ -299,7 +304,7 @@ export default function ItemDetail() {
                   {(item.latitude && item.longitude) ? (
                     <MapContainer
                       center={[item.latitude, item.longitude]}
-                      zoom={14}
+                      zoom={16}
                       scrollWheelZoom={true}
                       style={{ height: "100%", width: "100%", zIndex: 1 }}
                     >
@@ -335,7 +340,7 @@ export default function ItemDetail() {
                   {(item.latitude && item.longitude) ? (
                     <MapContainer
                       center={[item.latitude, item.longitude]}
-                      zoom={14}
+                      zoom={16}
                       scrollWheelZoom={true}
                       style={{ height: "100%", width: "100%", zIndex: 1 }}
                     >

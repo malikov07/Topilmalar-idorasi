@@ -20,6 +20,7 @@ import Register from './components/Register';
 import LocationPicker from './components/LocationPicker';
 import CreateItemPage from './components/CreateItemPage';
 import Profile from './components/Profile';
+import PublicProfile from './components/PublicProfile';
 import ProfileEdit from './components/ProfileEdit';
 import MapSearchPage from "./components/MapSearchPage";
 
@@ -38,6 +39,7 @@ function AppRoutes() {
         <Route path="/edit-item/:id" element={<CreateItemPage />} />
         <Route path="/items" element={<MapSearchPage />} />
         <Route path="/items/:id" element={<ItemDetail />} />
+        <Route path="/users/:id" element={<><PublicProfile /><Footer /></>} />
 
         <Route path="/" element={
             <>

@@ -268,6 +268,8 @@ export const translations = {
       editProfile: "Tahrirlash",
       logout: "Chiqish",
       loadMoreButton: "Ko'proq yuklash",
+      publicPosts: "E'lonlar",
+      memberSince: "Ro'yxatdan o'tgan",
     },
 
     // Profile Edit
@@ -726,6 +728,8 @@ export const translations = {
       edit: "Редактировать",
       delete: "Удалить",
       loadMoreButton: "Загрузить ещё",
+      publicPosts: "Объявления",
+      memberSince: "На сайте с",
     },
 
     // Profile Edit
@@ -1184,6 +1188,8 @@ export const translations = {
       edit: "Edit",
       delete: "Delete",
       loadMoreButton: "Load more",
+      publicPosts: "Listings",
+      memberSince: "Member since",
     },
 
     // Profile Edit

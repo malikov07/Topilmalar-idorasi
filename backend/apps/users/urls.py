@@ -1,6 +1,6 @@
 #url for api of login and registration
 from django.urls import path
-from .views import GoogleLoginView, LoginView, RegisterView, SendOTPView, VerifyOTPView, UserProfileUpdateView, ChangePasswordView
+from .views import GoogleLoginView, LoginView, RegisterView, SendOTPView, VerifyOTPView, UserProfileUpdateView, ChangePasswordView, PublicUserProfileView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('verify-otp/', VerifyOTPView.as_view(), name='verify_otp'),
     path('send-otp/', SendOTPView.as_view(), name='send_otp'),
     path('profile/', UserProfileUpdateView.as_view(), name='profile_update'),
+    path('users/<uuid:pk>/', PublicUserProfileView.as_view(), name='public_profile'),
     path('change-password/', ChangePasswordView.as_view(), name='change_password'),
 ]
