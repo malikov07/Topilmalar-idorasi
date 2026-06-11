@@ -20,7 +20,7 @@ L.Marker.prototype.options.icon = L.icon({
 // here, so you only edit this one object.
 // ───────────────────────────────────────────────────────────────────────────
 const CONTACT = {
-  address: "Amir Temur shoh ko'chasi 108, Toshkent, O'zbekiston",
+  address: "Kichik halqa yo'li 17, Toshkent, O'zbekiston",
   coordinates: [41.3507034, 69.2210652], // [latitude, longitude]
   phones: ['+998 93 509 36 36'],
   telegram: '@Khamidullaa',
