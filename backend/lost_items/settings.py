@@ -219,6 +219,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 BREVO_API_KEY = getenv("BREVO_API_KEY")
 
+# Absolute base URL used for SEO canonical/Open Graph/sitemap links.
+SITE_URL = getenv("SITE_URL", "https://topilmalar.polito.uz")
+
 
 # settings.py
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
